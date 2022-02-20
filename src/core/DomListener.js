@@ -7,7 +7,6 @@ export class DomListener {
         }
         this.$root = $root;
         this.listeners = listeners;
-        this._activeListener = {};
     }
 
     initDOMListeners() {
@@ -19,7 +18,7 @@ export class DomListener {
                     `Methode ${method} is not implemented in ${name}`
                 );
             }
-            this.activeListener[listener] = this[method].bind(this);
+            this[method] = this[method].bind(this);
             this.$root.on(listener, this.activeListener[listener]);
         });
     }
@@ -27,7 +26,6 @@ export class DomListener {
     removeDOMListeners() {
         this.listeners.forEach((listener) => {
             this.$root.off(listener, this.activeListener[listener]);
-            delete this._activeListener[listener];
         });
     }
 }
