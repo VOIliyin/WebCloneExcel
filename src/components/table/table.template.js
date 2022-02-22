@@ -3,9 +3,16 @@ const CODES = {
     Z: 90
 };
 
-function createCell(_, index) {
+function createCell(row, index) {
     return `
-    <div class="excel__cell" contenteditable data-col="${index}"></div>
+    <div 
+        class="excel__cell" 
+        contenteditable 
+        data-col="${index}" 
+        data-id="${row}:${index}"
+        data-type="cell"
+    >
+    </div>
     `;
 }
 
@@ -45,9 +52,12 @@ export function createTable(rowsCount = 20) {
 
     rows.push(createRow(cols));
 
-    for (let i = 0; i < rowsCount; i++) {
-        const cells = new Array(colsCount).fill('').map(createCell).join('');
-        rows.push(createRow(cells, i + 1));
+    for (let row = 0; row < rowsCount; row++) {
+        const cells = new Array(colsCount)
+            .fill('')
+            .map((_, index) => createCell(row, index))
+            .join('');
+        rows.push(createRow(cells, row + 1));
     }
 
     return rows.join('');
