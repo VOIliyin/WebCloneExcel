@@ -11,7 +11,8 @@
         "require-jsdoc": "off",
         "indent": ["error", 4, { "SwitchCase": 1 }],
         "operator-linebreak": "off",
-        "no-debugger": "off"
+        "no-debugger": "off",
+        "no-case-declarations": "off"
     },
     "extends": ["eslint:recommended", "google"]
 }
