@@ -3,8 +3,10 @@ import {DomListener} from '@core/DomListener';
 export class ExcelComponent extends DomListener {
     constructor($root, options = {}) {
         super($root, options.listeners);
-        this.name = options.name;
+        this.name = options.name || '';
         this.emitter = options.emitter;
+        this.subscribe = options.subscribe || [];
+        this.store = options.store;
         this.unsubscribes = [];
 
         this.prepare();
@@ -20,9 +22,14 @@ export class ExcelComponent extends DomListener {
         this.initDOMListeners();
     }
 
+    isWathing(key) {
+        return this.subscribe.includes(key);
+    }
+
     destroy() {
         this.removeDOMListeners();
         this.unsubscribes.forEach((unsub) => unsub());
+        this.storeSub.unsubscribe();
     }
 
     $emit(event, ...args) {
@@ -33,4 +40,10 @@ export class ExcelComponent extends DomListener {
         const unsub = this.emitter.subscribe(event, cb);
         this.unsubscribes.push(unsub);
     }
+
+    $dispatch(action) {
+        this.storeSub = this.store.dispatch(action);
+    }
+
+    storeChanged() {}
 }
