@@ -10,6 +10,7 @@ import {
 } from '@/components/table/table.functions.js';
 import {TableSelection} from '@/components/table/TableSelection.js';
 import * as actions from '@/store/actions.js';
+import {defaultStyle} from '@/constants.js';
 
 export class Table extends ExcelComponent {
     static className = 'excel__table';
@@ -41,6 +42,15 @@ export class Table extends ExcelComponent {
         });
         this.$on('formula:Enter', () => {
             this.selection.current.focus();
+        });
+        this.$on('toolbar:applyStyle', (value) => {
+            this.selection.applyStyle(value);
+            this.$dispatch(
+                actions.applyStyle({
+                    value,
+                    ids: this.selection.ids
+                })
+            );
         });
     }
 
@@ -109,5 +119,7 @@ export class Table extends ExcelComponent {
 
     selectCell($cell) {
         this.$emit('table:selected', $cell.text);
+        const styles = $cell.getStyles(Object.keys(defaultStyle));
+        this.$dispatch(actions.changeStyles(styles));
     }
 }

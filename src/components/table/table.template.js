@@ -1,3 +1,6 @@
+import {toInLineStyles} from '@core/utils.js';
+import {defaultStyle} from '@/constants.js';
+
 const CODES = {
     A: 65,
     Z: 90
@@ -8,6 +11,7 @@ const DEFAULT_HEIGHT = 24;
 
 function createCell(row, index, state) {
     const value = state.dataState[`${row}:${index}`];
+    const styles = state.stylesState[`${row}:${index}`];
     return `
     <div 
         class="excel__cell" 
@@ -15,7 +19,8 @@ function createCell(row, index, state) {
         data-col="${index}" 
         data-id="${row}:${index}"
         data-type="cell"
-        style="width: ${getWidth(state.colState, index)}"
+        style="${toInLineStyles({...defaultStyle, ...styles})};
+        width: ${getWidth(state.colState, index)}"
     >
         ${value || ''}
     </div>
@@ -38,7 +43,6 @@ function createCol({content, index, width}) {
 
 function createRow(content, info = '', index, state) {
     const height = getHeight(state, index);
-    // debugger;
     return `
     <div 
         class="excel__row" 
