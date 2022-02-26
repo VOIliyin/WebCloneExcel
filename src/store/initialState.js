@@ -1,5 +1,5 @@
 import {storage} from '@core/utils.js';
-import {defaultStyle} from '@/constants';
+import {defaultStyle, defaultTitle} from '@/constants';
 
 const defaultState = {
     rowState: {},
@@ -7,7 +7,8 @@ const defaultState = {
     dataState: {},
     currentText: '',
     currentStyles: defaultStyle,
-    stylesState: {}
+    stylesState: {},
+    title: defaultTitle
 };
 
 const normalize = (state) => ({
