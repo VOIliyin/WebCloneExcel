@@ -25,3 +25,13 @@ export function isEqual(a, b) {
     }
     return a === b;
 }
+
+export function camelToDashCase(myStr) {
+    return myStr.replace(/([A-Z])/g, (g) => `-${g[0].toLowerCase()}`);
+}
+
+export function toInLineStyles(styles = {}) {
+    return Object.keys(styles)
+        .map((key) => `${camelToDashCase(key)}: ${styles[key]}`)
+        .join(';');
+}

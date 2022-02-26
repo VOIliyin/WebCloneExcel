@@ -1,53 +1,42 @@
-import {ExcelComponent} from '@core/ExcelComponent';
+import {ExcelStateComponent} from '@core/ExcelStateComponent.js';
+import {createToolbar} from './toolbar.template.js';
+import {defaultStyle} from '@/constants.js';
+import {$} from '@core/dom.js';
 
-export class Toolbar extends ExcelComponent {
+export class Toolbar extends ExcelStateComponent {
     static className = 'excel__toolbar';
 
     constructor($root, options) {
         super($root, {
             name: 'Toolbar',
-            listeners: [],
+            listeners: ['click'],
+            subscribe: ['currentStyles'],
             ...options
         });
     }
 
+    prepare() {
+        this.initState(defaultStyle);
+    }
+
+    get template() {
+        return createToolbar(this.state);
+    }
+
     toHtml() {
-        return `
-            <div class="excel__button">
-            <span class="material-icons">
-                format_align_left
-            </span>
-            </div>
+        return this.template;
+    }
 
-            <div class="excel__button">
-                <span class="material-icons">
-                    format_align_center
-                </span>
-            </div>
+    onClick(event) {
+        const $target = $(event.target);
+        if ($target.data.type === 'button') {
+            const value = JSON.parse($target.data.value);
 
-            <div class="excel__button">
-                <span class="material-icons">
-                    format_align_right
-                </span>
-            </div>
+            this.$emit('toolbar:applyStyle', value);
+        }
+    }
 
-            <div class="excel__button">
-                <span class="material-icons">
-                    format_bold
-                </span>
-            </div>
-
-            <div class="excel__button">
-                <span class="material-icons">
-                    format_italic
-                </span>
-            </div>
-
-            <div class="excel__button">
-                <span class="material-icons">
-                    format_underlined
-                </span>
-            </div>
-        `;
+    storeChanged(change) {
+        this.setState(change.currentStyles);
     }
 }
