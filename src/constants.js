@@ -4,3 +4,5 @@ export const defaultStyle = {
     textDecoration: 'none',
     fontStyle: 'normal'
 };
+
+export const defaultTitle = 'Новая таблица';

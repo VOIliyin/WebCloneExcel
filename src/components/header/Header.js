@@ -1,19 +1,27 @@
-import {ExcelComponent} from '@core/ExcelComponent';
+import {ExcelStateComponent} from '@core/ExcelStateComponent.js';
+import {$} from '@core/dom.js';
+import {changeTitle} from '@/store/actions.js';
 
-export class Header extends ExcelComponent {
+export class Header extends ExcelStateComponent {
     static className = 'excel__header';
 
     constructor($root, options) {
         super($root, {
             name: 'Header',
-            listeners: [],
+            listeners: ['input'],
             ...options
         });
     }
 
+    onInput(event) {
+        const $target = $(event.target);
+        this.$dispatch(changeTitle($target.text));
+    }
+
     toHtml() {
+        const title = this.store.getState().title;
         return `
-            <input type="text" class="excel__input-title" value="Новая таблица">
+            <input type="text" class="excel__input-title" value="${title}">
 
                     <div>
                         <div class="excel__button">

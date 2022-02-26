@@ -81,7 +81,6 @@ function getHeight(state, index) {
 }
 
 export function createTable(rowsCount = 20, state = {}) {
-    console.log(state);
     const colsCount = CODES.Z - CODES.A + 1;
     const rows = [];
 
