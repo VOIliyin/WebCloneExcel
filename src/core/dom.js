@@ -102,6 +102,14 @@ class Dom {
         return this.data.id;
     }
 
+    attr(name, value) {
+        if (value) {
+            this.$el.setAttribute(name, value);
+            return this;
+        }
+        this.$el.getAttribute(name);
+    }
+
     getStyles(styles = []) {
         return styles.reduce((res, s) => {
             res[s] = this.$el.style[s];
