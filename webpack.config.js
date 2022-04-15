@@ -6,7 +6,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const isDev = process.env.NODE_ENV === 'development';
 const inProd = !isDev;
 
-const fileName = (ext) => isDev? `[name].${ext}`:`[name].[contenthash].${ext}`;
+const fileName = (ext) =>
+    isDev ? `[name].${ext}` : `[name].[contenthash].${ext}`;
 const loaderJs = () => {
     const loaders = [
         {
@@ -32,10 +33,11 @@ module.exports = {
         path: path.resolve(__dirname, 'app')
     },
     resolve: {
+        modulesDirectories: ['node_modules'],
         extensions: ['.js'],
         alias: {
             '@': path.resolve(__dirname, 'src'),
-            '@core': path.resolve(__dirname, 'src/core'),
+            '@core': path.resolve(__dirname, 'src/core')
         }
     },
     devtool: isDev ? 'source-map' : false,
@@ -55,7 +57,7 @@ module.exports = {
         new CleanWebpackPlugin(),
         new MiniCssExtractPlugin({
             filename: fileName('css')
-        }),
+        })
     ],
     module: {
         rules: [
@@ -65,11 +67,7 @@ module.exports = {
             },
             {
                 test: /\.s[ac]ss$/i,
-                use: [
-                    MiniCssExtractPlugin.loader,
-                    'css-loader',
-                    'sass-loader',
-                ],
+                use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']
             },
             {
                 test: /\.js$/,
@@ -82,8 +80,7 @@ module.exports = {
                 generator: {
                     filename: `img/${fileName('[ext]')}`
                 }
-            },
-        ],
-    },
-
+            }
+        ]
+    }
 };

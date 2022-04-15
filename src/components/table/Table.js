@@ -11,6 +11,7 @@ import {
 import {TableSelection} from '@/components/table/TableSelection.js';
 import * as actions from '@/store/actions.js';
 import {defaultStyle} from '@/constants.js';
+import {parse} from '@core/parse.js';
 
 export class Table extends ExcelComponent {
     static className = 'excel__table';
@@ -37,7 +38,8 @@ export class Table extends ExcelComponent {
         this.selection.select(this.$cell);
         this.selectCell(this.$cell);
         this.$on('formula:input', (text) => {
-            this.selection.current.text = text;
+            this.selection.current.attr('data-value', text);
+            this.selection.current.text = parse(text);
             this.updateTextInStore(text);
         });
         this.$on('formula:Enter', () => {
@@ -65,6 +67,7 @@ export class Table extends ExcelComponent {
 
     onInput(event) {
         this.updateTextInStore($(event.target).text);
+        this.selection.current.attr('data-value', $(event.target).text);
     }
 
     async resizeTable(event) {
@@ -89,8 +92,8 @@ export class Table extends ExcelComponent {
 
                 this.selection.selectGroup($cells);
             } else {
+                this.parseCurentCell();
                 this.selection.select($target);
-
                 this.selectCell($target);
             }
         }
@@ -109,8 +112,8 @@ export class Table extends ExcelComponent {
         const {key} = event;
         if (keys.includes(key) && !event.shiftKey && !event.ctrlKey) {
             event.preventDefault();
+            this.parseCurentCell();
             const id = this.selection.current.id(true);
-            console.log(nextSelector(key, id));
             const $next = this.$root.find(nextSelector(key, id));
             this.selection.select($next);
             this.selectCell($next);
@@ -118,8 +121,12 @@ export class Table extends ExcelComponent {
     }
 
     selectCell($cell) {
-        this.$emit('table:selected', $cell.text);
+        this.$emit('table:selected', $cell);
         const styles = $cell.getStyles(Object.keys(defaultStyle));
         this.$dispatch(actions.changeStyles(styles));
+    }
+
+    parseCurentCell() {
+        this.selection.current.text = parse(this.selection.current.text);
     }
 }
