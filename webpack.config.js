@@ -33,7 +33,6 @@ module.exports = {
         path: path.resolve(__dirname, 'app')
     },
     resolve: {
-        modulesDirectories: ['node_modules'],
         extensions: ['.js'],
         alias: {
             '@': path.resolve(__dirname, 'src'),
