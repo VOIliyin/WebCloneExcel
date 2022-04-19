@@ -1,19 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <link rel="shortcut icon" href="favicon.ico">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <title>Table</title>
-</head>
-<body>
-    
-    <div id="app" class="container">
+import {Page} from '@core/Page';
+import {$} from '@core/dom';
 
-         <div class="db">
-
+export class DashboardPage extends Page {
+    getRoot() {
+        return $.create('div', 'db').html(`
             <div class="db__header">
-                <h1>Excel Dashboard</h1>
+            <h1>Excel Dashboard</h1>
             </div>
 
             <div class="db__new">
@@ -46,10 +38,6 @@
 
                 </div>
             </div>
-            
-         </div>
-
-    </div>
-
-</body>
-</html>
+        `);
+    }
+}
