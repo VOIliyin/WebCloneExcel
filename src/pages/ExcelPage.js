@@ -8,14 +8,15 @@ import {Table} from '@/components/table/Table.js';
 import {createStore} from '@core/createStore.js';
 import {rootReducer} from '../store/rootReducer.js';
 import {storage} from '@core/utils.js';
-import {initialState} from '@/store/initialState';
+import {normalizeInitialState} from '@/store/initialState';
 
 export class ExcelPage extends Page {
     getRoot() {
-        const store = createStore(rootReducer, initialState);
+        const state = storage(storageName(this.params));
+        const store = createStore(rootReducer, normalizeInitialState(state));
 
         store.subscribe((state) => {
-            storage('excel-state', state);
+            storage(storageName(this.params), state);
         });
 
         this.excel = new Excel({
@@ -33,4 +34,8 @@ export class ExcelPage extends Page {
     destroy() {
         this.excel.destroy();
     }
+}
+
+function storageName(param) {
+    return 'excel: ' + param;
 }

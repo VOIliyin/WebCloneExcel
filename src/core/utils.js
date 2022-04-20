@@ -35,3 +35,7 @@ export function toInLineStyles(styles = {}) {
         .map((key) => `${camelToDashCase(key)}: ${styles[key]}`)
         .join(';');
 }
+
+export function clone(obj) {
+    return JSON.parse(JSON.stringify(obj));
+}
