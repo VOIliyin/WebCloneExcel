@@ -1,7 +1,9 @@
-function toHtml() {
+import {storage} from '@core/utils.js';
+
+function toHtml(params) {
     return `
         <li class="db__record">
-            <a href="#">dsfgkjdslfgjk</a>
+            <a href="#excel/${params.key}">${params.state.title}</a>
             <strong>12.04.3022</strong>
         </li>
     `;
@@ -17,7 +19,9 @@ function getAllKeys() {
             continue;
         }
 
-        keys.push(key);
+        const state = storage(key);
+        console.log(key.split(' ')[1]);
+        keys.push({state, key: key.split(' ')[1]});
     }
 
     return keys;
