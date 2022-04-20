@@ -66,6 +66,12 @@
         @include clear-list()
     }
 
+    &__empty {
+        text-align: center;
+        font-size: 24px;
+        margin-top: 40px;
+    }
+
     &__record {
         display: flex;
         justify-content: space-between;
