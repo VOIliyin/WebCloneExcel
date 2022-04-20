@@ -4,7 +4,10 @@ function toHtml(params) {
     return `
         <li class="db__record">
             <a href="#excel/${params.key}">${params.state.title}</a>
-            <strong>12.04.3022</strong>
+            <strong>
+                ${new Date(params.state.date).toLocaleDateString()}
+                ${new Date(params.state.date).toLocaleTimeString()}
+            </strong>
         </li>
     `;
 }

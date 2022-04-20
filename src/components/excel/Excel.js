@@ -1,6 +1,7 @@
 import {$} from '@core/dom.js';
 import {Emitter} from '@core/Emitter.js';
 import {StoreSubscriber} from '@core/StoreSubscriber.js';
+import {changeDate} from '../../store/actions';
 
 export class Excel {
     constructor(options) {
@@ -28,6 +29,7 @@ export class Excel {
     }
 
     init() {
+        this.store.dispatch(changeDate());
         this.subscriber.subscribeComponents(this.components);
         this.components.forEach((component) => {
             component.init();
